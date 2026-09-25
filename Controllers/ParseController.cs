@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TestJob.DTOs.Elements;
-using TestJob.Models;
 using TestJob.Services;
 
 namespace TestJob.Controllers;

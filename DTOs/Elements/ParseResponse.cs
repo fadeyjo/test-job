@@ -25,7 +25,7 @@ public class ParseResponse
     public string DecryptedPlainText { get; set; } = string.Empty;
 
     [JsonPropertyName("elements_attr_list")]
-    public List<string> ElementsAttrList { get; set; } = null!;
+    public List<string?> ElementsAttrList { get; set; } = null!;
     
     [JsonPropertyName("emails_list")]
     public List<string> EmailsList { get; set; } = null!;

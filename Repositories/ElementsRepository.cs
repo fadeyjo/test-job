@@ -5,7 +5,7 @@ namespace TestJob.Repositories;
 
 public class ElementsRepository(IDbConnectionFactory connectionFactory) : IElementsRepository
 {
-    public async Task<long> CreateElementAsync(string attrValue, string elHtmlCode)
+    public async Task<long> CreateElementAsync(string? attrValue, string elHtmlCode)
     {
         const string query = """
                              insert into elements (attr_value, el_html_code)
