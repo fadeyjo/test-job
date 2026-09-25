@@ -1,0 +1,63 @@
+﻿services:
+  app:
+    build: .
+    
+    volumes:
+      - .:/src
+    
+    ports:
+      - "8090:${ENV_ASPNETCORE_HTTP_PORTS}"
+    
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ENV_ASPNETCORE_ENVIRONMENT}
+      BUILD_CONFIGURATION: ${ENV_BUILD_CONFIGURATION}
+      ASPNETCORE_HTTP_PORTS: ${ENV_ASPNETCORE_HTTP_PORTS}
+
+    depends_on:
+      db:
+        condition: service_healthy
+        
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${ENV_ASPNETCORE_HTTP_PORTS}/health"]
+    
+    restart: unless-stopped
+
+  db:
+    image: postgres:18
+    
+    environment:
+      POSTGRES_USER: ${ENV_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${ENV_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${ENV_POSTGRES_DB}
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d ${ENV_POSTGRES_DB} -U ${ENV_POSTGRES_USER}"]
+      start_period: 3s
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    
+    volumes:
+      - db_data:/var/lib/postgresql
+      - ./Data/00-init_db_script.sql:/docker-entrypoint-initdb.d/00-init_db_script.sql
+    
+    restart: unless-stopped
+  
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${ENV_PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${ENV_PGADMIN_DEFAULT_PASSWORD}
+    
+    ports:
+      - "8080:80"
+    
+    depends_on:
+      db:
+        condition: service_healthy
+    
+    restart: unless-stopped
+
+volumes:
+  db_data:
