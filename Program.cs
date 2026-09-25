@@ -1,3 +1,7 @@
+using TestJob.Data;
+using TestJob.Repositories;
+using TestJob.Services;
+
 namespace TestJob;
 
 public class Program
@@ -9,6 +13,12 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
+        
+        builder.Services.AddScoped<IDbConnectionFactory, NpgsqlConnectionFactory>();
+        
+        builder.Services.AddScoped<IElementsRepository, ElementsRepository>();
+
+        builder.Services.AddScoped<IParseService, ParseService>();
         
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
