@@ -31,7 +31,7 @@
       POSTGRES_DB: ${ENV_POSTGRES_DB}
     
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d ${ENV_POSTGRES_DB} -U ${ENV_POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${ENV_POSTGRES_USER} -d ${ENV_POSTGRES_DB}"]
       start_period: 3s
       interval: 5s
       timeout: 3s
