@@ -7,11 +7,11 @@ public class ParseResponse
     [JsonPropertyName("is_error")]
     public int IsError { get; set; }
     
-    [JsonPropertyName("error_code")]
-    public string ErrorCode { get; set; } = string.Empty;
+    [JsonPropertyName("error_codes")]
+    public List<string> ErrorCodes { get; set; } = null!;
     
-    [JsonPropertyName("error_message")]
-    public string ErrorMessage { get; set; } = string.Empty;
+    [JsonPropertyName("error_messages")]
+    public List<string> ErrorMessages { get; set; } = null!;
     
     [JsonPropertyName("elements_count")]
     public int ElementsCount { get; set; }
@@ -19,10 +19,10 @@ public class ParseResponse
     [JsonPropertyName("emails_count")]
     public int EmailsCount { get; set; }
     
-    public string Url { get; set; } = string.Empty;
+    public string? Url { get; set; }
     
     [JsonPropertyName("decrypted_plain_text")]
-    public string DecryptedPlainText { get; set; } = string.Empty;
+    public string? DecryptedPlainText { get; set; }
 
     [JsonPropertyName("elements_attr_list")]
     public List<string?> ElementsAttrList { get; set; } = null!;

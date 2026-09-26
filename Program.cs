@@ -1,6 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using TestJob.Data;
 using TestJob.Repositories;
 using TestJob.Services;
+using TestJob.Validators;
 
 namespace TestJob;
 
@@ -24,6 +27,8 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddHealthChecks();
+
+        builder.Services.AddValidatorsFromAssemblyContaining<ParseRequestValidator>();
 
         var app = builder.Build();
 
