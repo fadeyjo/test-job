@@ -10,7 +10,7 @@ using TestJob.Repositories;
 
 namespace TestJob.Services;
 
-public class ParseService(IElementsRepository repository) : IParseService
+public partial class ParseService(IElementsRepository repository) : IParseService
 {
     public async Task<ParseResponse> CreateElementAsync(ParseRequest body, ValidationResult validationResult)
     {
@@ -95,14 +95,16 @@ public class ParseService(IElementsRepository repository) : IParseService
         
         return result;
     }
+    
+    // Скомпилированное регулярное выражение
+    [GeneratedRegex(
+        @"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+")]
+    private static partial Regex EmailRegex();
 
     private List<string> GetEmails(string page)
     {
-        const string pattern =
-            @"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+";
-
-        return Regex
-            .Matches(page, pattern)
+        return EmailRegex()
+            .Matches(page)
             .Select(match => match.Value)
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
